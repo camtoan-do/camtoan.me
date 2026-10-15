@@ -17,7 +17,12 @@ async function check(name, fn) {
   }
 }
 
-const get = (url, opts = {}) => fetch(url, { redirect: "manual", signal: AbortSignal.timeout(10_000), ...opts });
+// Always read the body so the connection is released for the next request.
+async function get(url) {
+  const res = await fetch(url, { redirect: "manual", signal: AbortSignal.timeout(10_000) });
+  const body = await res.text();
+  return { status: res.status, headers: res.headers, body };
+}
 
 await check("Home page is up", async () => {
   const res = await get(BASE);
@@ -66,7 +71,7 @@ for (const path of ["/.well-known/security.txt", "/pgp.asc", "/security/", "/blo
 await check("Blog page renders (Substack posts counted)", async () => {
   const res = await get(`${BASE}/blog/`);
   if (res.status !== 200) throw new Error(`HTTP ${res.status}`);
-  const count = ((await res.text()).match(/Substack ↗/g) ?? []).length;
+  const count = (res.body.match(/Substack ↗/g) ?? []).length;
   console.log(`\n::notice::Live blog lists ${count} Substack post(s)`);
   return `${count} Substack post(s)`;
 });
