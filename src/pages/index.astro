@@ -53,6 +53,7 @@ import { site } from "../site";
         <a class="pill" href={`mailto:${site.email}`}>{site.email}</a>
         {site.links.map((l) => <a class="more" href={l.url} rel="noopener noreferrer">{l.label}</a>)}
       </div>
+      {site.pgp.file && <p class="small">Sensitive? Encrypt with my <a href={site.pgp.file}>PGP key</a>.</p>}
       <p class="small">Found a security issue on this site? <a href="/security">Report it responsibly</a>.</p>
     </div>
   </section>

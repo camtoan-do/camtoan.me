@@ -48,4 +48,4 @@ Write down, on one page: who to call, how to lock accounts, where the backups ar
 
 ---
 
-Want someone to check these for your business? [Get in touch](mailto:camtoan.work@gmail.com) — I'll tell you plainly what's fine and what needs fixing.
+Want someone to check these for your business? [Get in touch](mailto:official@camtoan.me) — I'll tell you plainly what's fine and what needs fixing.

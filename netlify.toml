@@ -19,3 +19,9 @@
   for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Show the public PGP key as text in the browser.
+[[headers]]
+  for = "/pgp.asc"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"

@@ -4,7 +4,7 @@ export const site = {
   role: "Cybersecurity Analyst",
   headline: "Security.\nMade simple.",
   tagline: "I help small businesses and individuals find and fix security gaps — before someone else finds them.",
-  email: "camtoan.work@gmail.com",
+  email: "official@camtoan.me",
 
   about: [
     "I'm a cybersecurity analyst by day. On the side, I offer practical, plain-English security help to people who don't have a security team.",
@@ -49,7 +49,7 @@ export const site = {
   ],
 
   // Path to your PUBLIC PGP key in /public (e.g. "/pgp.asc") and its fingerprint. Leave empty to hide.
-  pgp: { file: "", fingerprint: "" },
+  pgp: { file: "/pgp.asc", fingerprint: "9083 9B9E C1CD 87EB C933  EB78 49A2 57EE 9CAE 466F" },
 
   links: [
     { label: "GitHub", url: "https://github.com/camtoan-do" },
