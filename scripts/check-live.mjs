@@ -62,6 +62,15 @@ for (const path of ["/.well-known/security.txt", "/pgp.asc", "/security/", "/blo
   });
 }
 
+// Informational only: how many Substack posts made it onto the live blog.
+await check("Blog page renders (Substack posts counted)", async () => {
+  const res = await get(`${BASE}/blog/`);
+  if (res.status !== 200) throw new Error(`HTTP ${res.status}`);
+  const count = ((await res.text()).match(/Substack ↗/g) ?? []).length;
+  console.log(`\n::notice::Live blog lists ${count} Substack post(s)`);
+  return `${count} Substack post(s)`;
+});
+
 await check("TLS certificate valid for 14+ days", () =>
   new Promise((resolve, reject) => {
     const socket = connect({ host, port: 443, servername: host, timeout: 10_000 }, () => {
