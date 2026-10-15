@@ -96,4 +96,7 @@ const table = [
 console.log(table);
 if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, table + "\n");
 
+// Surface each failure as a GitHub annotation so it shows on the run page.
+for (const r of results.filter((r) => !r.ok)) console.log(`\n::error::${r.name}: ${r.detail}`);
+
 process.exit(results.every((r) => r.ok) ? 0 : 1);
