@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check:build": "node scripts/check-build.mjs",
+    "check:live": "node scripts/check-live.mjs"
   },
   "dependencies": {
     "astro": "^7.4.0"

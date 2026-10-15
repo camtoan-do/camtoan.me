@@ -1,0 +1,90 @@
+// Checks the live site from the outside, like a visitor would.
+// Usage: node scripts/check-live.mjs [https://camtoan.me]
+import { connect } from "node:tls";
+import { appendFileSync } from "node:fs";
+
+const BASE = process.argv[2] ?? "https://camtoan.me";
+const host = new URL(BASE).hostname;
+const results = [];
+
+async function check(name, fn) {
+  const start = performance.now();
+  try {
+    const detail = await fn();
+    results.push({ name, ok: true, detail, ms: Math.round(performance.now() - start) });
+  } catch (e) {
+    results.push({ name, ok: false, detail: e.message, ms: Math.round(performance.now() - start) });
+  }
+}
+
+const get = (url, opts = {}) => fetch(url, { redirect: "manual", signal: AbortSignal.timeout(10_000), ...opts });
+
+await check("Home page is up", async () => {
+  const res = await get(BASE);
+  if (res.status !== 200) throw new Error(`HTTP ${res.status}`);
+  return "HTTP 200";
+});
+
+await check("HTTP redirects to HTTPS", async () => {
+  const res = await get(`http://${host}/`);
+  const to = res.headers.get("location") ?? "";
+  if (![301, 308].includes(res.status) || !to.startsWith("https://")) throw new Error(`HTTP ${res.status} → ${to || "no redirect"}`);
+  return `${res.status} → ${to}`;
+});
+
+await check("www redirects to apex", async () => {
+  const res = await get(`https://www.${host}/`);
+  const to = res.headers.get("location") ?? "";
+  if (![301, 308].includes(res.status) || new URL(to, BASE).hostname !== host) throw new Error(`HTTP ${res.status} → ${to || "no redirect"}`);
+  return `${res.status} → ${to}`;
+});
+
+await check("Security headers present", async () => {
+  const res = await get(BASE);
+  const required = [
+    "content-security-policy",
+    "strict-transport-security",
+    "x-content-type-options",
+    "x-frame-options",
+    "referrer-policy",
+    "permissions-policy",
+  ];
+  const missing = required.filter((h) => !res.headers.has(h));
+  if (missing.length) throw new Error(`missing: ${missing.join(", ")}`);
+  return `${required.length}/${required.length} headers`;
+});
+
+for (const path of ["/.well-known/security.txt", "/pgp.asc", "/security/", "/blog/", "/certifications/"]) {
+  await check(`${path} reachable`, async () => {
+    const res = await get(BASE + path);
+    if (res.status !== 200) throw new Error(`HTTP ${res.status}`);
+    return "HTTP 200";
+  });
+}
+
+await check("TLS certificate valid for 14+ days", () =>
+  new Promise((resolve, reject) => {
+    const socket = connect({ host, port: 443, servername: host, timeout: 10_000 }, () => {
+      const cert = socket.getPeerCertificate();
+      socket.end();
+      const days = Math.floor((new Date(cert.valid_to) - Date.now()) / 864e5);
+      days >= 14 ? resolve(`${days} days left`) : reject(new Error(`expires in ${days} days`));
+    });
+    socket.on("error", reject);
+    socket.on("timeout", () => socket.destroy(new Error("timeout")));
+  }),
+);
+
+// Print a table, and write it to the GitHub Actions run summary (public on the Actions tab).
+const table = [
+  `## Live checks for ${BASE}`,
+  `_${new Date().toISOString()}_`,
+  "",
+  "| Check | Result | Detail | Time |",
+  "| --- | --- | --- | --- |",
+  ...results.map((r) => `| ${r.name} | ${r.ok ? "✅" : "❌"} | ${r.detail} | ${r.ms} ms |`),
+].join("\n");
+console.log(table);
+if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, table + "\n");
+
+process.exit(results.every((r) => r.ok) ? 0 : 1);

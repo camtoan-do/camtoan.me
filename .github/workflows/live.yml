@@ -1,0 +1,26 @@
+name: Live checks
+
+# Checks the live site every hour (uptime, HTTPS, security headers, TLS expiry),
+# and again shortly after each deploy. A failed run emails the repo owner.
+on:
+  schedule:
+    - cron: "17 * * * *"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Wait for Netlify to deploy
+        if: github.event_name == 'push'
+        run: sleep 120
+      - run: npm run check:live

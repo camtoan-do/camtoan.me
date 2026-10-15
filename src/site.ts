@@ -29,11 +29,12 @@ export const site = {
   // This site is the first project: it's hardened, and anyone can verify it.
   project: {
     title: "This website",
-    text: "Built as a static site with no server, database or login to attack, and served with a strict Content-Security-Policy, HSTS and anti-framing headers. Don't take my word for it — check it yourself:",
+    text: "Built as a static site with no server, database or login to attack, and served with a strict Content-Security-Policy, HSTS and anti-framing headers. Every change is checked automatically before it ships, and the live site is tested every hour. Don't take my word for it — check it yourself:",
     checks: [
       { label: "Security headers scan", url: "https://securityheaders.com/?q=camtoan.me&followRedirects=on" },
       { label: "Mozilla Observatory", url: "https://developer.mozilla.org/en-US/observatory/analyze?host=camtoan.me" },
       { label: "SSL Labs (HTTPS)", url: "https://www.ssllabs.com/ssltest/analyze.html?d=camtoan.me" },
+      { label: "Hourly live checks", url: "https://github.com/camtoan-do/camtoan.me/actions/workflows/live.yml" },
       { label: "Source code", url: "https://github.com/camtoan-do/camtoan.me" },
     ],
   },
