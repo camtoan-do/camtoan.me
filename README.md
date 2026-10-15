@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/camtoan-do/camtoan.me/actions/workflows/ci.yml/badge.svg)](https://github.com/camtoan-do/camtoan.me/actions/workflows/ci.yml)
 [![Live checks](https://github.com/camtoan-do/camtoan.me/actions/workflows/live.yml/badge.svg)](https://github.com/camtoan-do/camtoan.me/actions/workflows/live.yml)
+[![Status](https://img.shields.io/badge/status-status.camtoan.me-brightgreen)](https://status.camtoan.me)
 
 The personal website of **Cam Toan Do**, cybersecurity analyst. It offers practical security help for small businesses and individuals.
 
@@ -25,6 +26,7 @@ DNS: Namecheap (ALIAS → Netlify)   ·   Email: Proton Mail (SPF, DKIM, DMARC)
 | Hosting | Netlify (free tier) | Atomic deploys, automatic HTTPS, deploys on git push |
 | DNS | Namecheap | Registrar + DNS |
 | Email | Proton Mail | Custom domain, built-in PGP |
+| Writing | Substack | Posts are pulled from the RSS feed at build time into [/blog](https://camtoan.me/blog/) |
 
 ## Security
 
@@ -44,6 +46,8 @@ You can verify these yourself: [securityheaders.com](https://securityheaders.com
 | [Live checks](.github/workflows/live.yml) → [`check-live.mjs`](scripts/check-live.mjs) | Hourly and after each deploy | Site is up · HTTP→HTTPS and www→apex redirects · all security headers present · key pages reachable · TLS certificate valid for 14+ days |
 
 Each live run writes a results table to its run summary on the [Actions tab](https://github.com/camtoan-do/camtoan.me/actions/workflows/live.yml). A failed run emails the owner.
+
+**Status page:** [status.camtoan.me](https://status.camtoan.me) shows uptime history and response times. It's built with [Upptime](https://upptime.js.org) in [camtoan-do/status](https://github.com/camtoan-do/status). It checks every 5 minutes, and outages open and close GitHub issues automatically.
 
 ## Project structure
 
@@ -79,7 +83,7 @@ Pushing to `main` deploys automatically.
 
 ## Roadmap
 
-- [ ] Public status page with uptime history
+- [x] Public status page with uptime history
 - [ ] Manage DNS and Netlify settings with Terraform
 - [ ] Define and publish an availability SLO
 

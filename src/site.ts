@@ -34,6 +34,7 @@ export const site = {
       { label: "Security headers scan", url: "https://securityheaders.com/?q=camtoan.me&followRedirects=on" },
       { label: "Mozilla Observatory", url: "https://developer.mozilla.org/en-US/observatory/analyze?host=camtoan.me" },
       { label: "SSL Labs (HTTPS)", url: "https://www.ssllabs.com/ssltest/analyze.html?d=camtoan.me" },
+      { label: "Status page", url: "https://status.camtoan.me" },
       { label: "Hourly live checks", url: "https://github.com/camtoan-do/camtoan.me/actions/workflows/live.yml" },
       { label: "Source code", url: "https://github.com/camtoan-do/camtoan.me" },
     ],
