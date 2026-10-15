@@ -1,12 +1,15 @@
 :root {
   --bg: #fafafa;
   --fg: #1a1a1a;
-  --muted: #666;
-  --accent: #2563eb;
+  --muted: #5f6368;
+  --card: #fff;
+  --border: #e3e3e3;
+  --accent: #0f766e;
+  --accent-fg: #fff;
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #111; --fg: #eee; --muted: #999; --accent: #60a5fa; }
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9aa4af; --card: #161b22; --border: #2a313a; --accent: #2dd4bf; --accent-fg: #0d1117; }
 }
 * { box-sizing: border-box; }
 body {
@@ -21,11 +24,37 @@ body {
 main {
   flex: 1;
   width: 100%;
-  max-width: 40rem;
+  max-width: 46rem;
   margin: 0 auto;
-  padding: 18vh 1.25rem 2rem;
+  padding: 12vh 1rem 2rem;
 }
-h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1; margin: 0 0 1rem; }
+.hero { margin-bottom: 4rem; }
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  font: 600 0.85rem/1 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+h1 { font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1.1; margin: 0 0 1rem; }
+h2 { font-size: 1.35rem; margin: 0 0 0.75rem; }
+h3 { font-size: 1.05rem; margin: 0 0 0.4rem; }
+.lead { font-size: 1.2rem; color: var(--muted); max-width: 36rem; }
+section { margin-bottom: 3.5rem; }
 a { color: var(--accent); }
-.links { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1.25rem; }
+.button {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.7rem 1.3rem;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-weight: 600;
+  text-decoration: none;
+}
+.button:hover { opacity: 0.9; }
+.cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; }
+.card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.links { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
 footer { text-align: center; padding: 2rem 1rem; color: var(--muted); font-size: 0.85rem; }
