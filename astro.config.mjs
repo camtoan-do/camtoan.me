@@ -1,0 +1,7 @@
+import { defineConfig } from "astro/config";
+
+export default defineConfig({
+  site: "https://camtoan.me",
+  // Emit CSS as files (not inline) so the strict Content-Security-Policy in netlify.toml holds.
+  build: { inlineStylesheets: "never" },
+});
