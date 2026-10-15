@@ -19,9 +19,19 @@ const { title = site.name } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="/">{site.name}</a>
+        <div class="nav-links">
+          <a href="/#services">Services</a>
+          <a href="/#project">Project</a>
+          <a href="/#contact">Contact</a>
+        </div>
+      </div>
+    </nav>
     <main>
       <slot />
     </main>
-    <footer>© {new Date().getFullYear()} {site.name}</footer>
+    <footer>Copyright © {new Date().getFullYear()} {site.name}. All rights reserved.</footer>
   </body>
 </html>

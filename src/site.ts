@@ -2,6 +2,7 @@
 export const site = {
   name: "Cam Toan Do",
   role: "Cybersecurity Analyst",
+  headline: "Security.\nMade simple.",
   tagline: "I help small businesses and individuals find and fix security gaps — before someone else finds them.",
   email: "camtoan.work@gmail.com",
 
