@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+---
+
+<Base title={`Certifications — ${site.name}`}>
+  <section class="hero stagger">
+    <h1>Certified.</h1>
+    <p class="lead">Across cloud, networking and security.</p>
+  </section>
+  <section class="band band-gray">
+    <div class="certs stagger">
+      {site.certifications.map((c) => {
+        const inner = <><span class="cert-issuer">{c.issuer}</span><span class="cert-name">{c.name}</span></>;
+        return c.url
+          ? <a class="cert" href={c.url} rel="noopener noreferrer">{inner}</a>
+          : <div class="cert">{inner}</div>;
+      })}
+    </div>
+  </section>
+</Base>

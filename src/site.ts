@@ -40,8 +40,8 @@ export const site = {
 
   // Shown in the Certifications section. Add a `url` (e.g. your Credly badge link) to make one clickable.
   certifications: [
-    { name: "AWS Certified Solutions Architect", issuer: "Amazon Web Services", url: "" },
-    { name: "AWS AI Business Strategy — Early Adopter", issuer: "Amazon Web Services", url: "" },
+    { name: "AWS Certified Solutions Architect – Associate", issuer: "Amazon Web Services", url: "" },
+    { name: "AWS Certified AI Business Strategist — Early Adopter", issuer: "Amazon Web Services", url: "" },
     { name: "Microsoft Certified: Azure Administrator Associate", issuer: "Microsoft", url: "" },
     { name: "CompTIA Security+", issuer: "CompTIA", url: "" },
     { name: "CompTIA Network+", issuer: "CompTIA", url: "" },
