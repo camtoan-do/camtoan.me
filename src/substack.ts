@@ -30,10 +30,10 @@ export function getSubstackPosts(): Promise<SubstackPost[]> {
         url: tag(item, "link"),
         date: new Date(tag(item, "pubDate")),
       })).filter((p) => p.title && p.url.startsWith("https://"));
-      console.log(`::notice::Substack: ${posts.length} posts loaded from ${site.substack.feed}`);
+      console.log(`\n::notice::Substack: ${posts.length} posts loaded from ${site.substack.feed}`);
       return posts;
     } catch (e) {
-      console.log(`::warning::Substack feed unavailable (${(e as Error).message}); showing local posts only`);
+      console.log(`\n::warning::Substack feed unavailable (${(e as Error).message}); showing local posts only`);
       return [];
     }
   })();
