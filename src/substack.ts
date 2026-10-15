@@ -21,7 +21,10 @@ let cache: Promise<SubstackPost[]> | undefined;
 export function getSubstackPosts(): Promise<SubstackPost[]> {
   cache ??= (async () => {
     try {
-      const res = await fetch(site.substack.feed, { signal: AbortSignal.timeout(10_000) });
+      const res = await fetch(site.substack.feed, {
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; camtoan.me-build; +https://camtoan.me)" },
+        signal: AbortSignal.timeout(10_000),
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const xml = await res.text();
       const posts = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(([, item]) => ({
