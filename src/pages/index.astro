@@ -1,6 +1,11 @@
 ---
+import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import { site } from "../site";
+
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <Base title={`${site.name} — ${site.role}`}>
@@ -33,6 +38,19 @@ import { site } from "../site";
     </div>
   </section>
 
+  <section id="certifications" class="band">
+    <h2 class="center reveal">Certified.</h2>
+    <p class="body-lg center reveal">Across cloud, networking and security.</p>
+    <div class="certs">
+      {site.certifications.map((c) => {
+        const inner = <><span class="cert-issuer">{c.issuer}</span><span class="cert-name">{c.name}</span></>;
+        return c.url
+          ? <a class="cert reveal" href={c.url} rel="noopener noreferrer">{inner}</a>
+          : <div class="cert reveal">{inner}</div>;
+      })}
+    </div>
+  </section>
+
   <section id="project" class="band band-dark">
     <div class="narrow center reveal">
       <p class="eyebrow">Project</p>
@@ -44,6 +62,19 @@ import { site } from "../site";
     </div>
   </section>
 
+  <section id="blog" class="band band-gray">
+    <h2 class="center reveal">From the blog.</h2>
+    <div class="tiles">
+      {posts.map((p) => (
+        <a class="tile tile-link reveal" href={`/blog/${p.id}/`}>
+          <h3>{p.data.title}</h3>
+          <p>{p.data.description}</p>
+        </a>
+      ))}
+    </div>
+    <p class="center"><a class="more" href="/blog/">All posts</a></p>
+  </section>
+
   <section id="contact" class="band">
     <div class="narrow center reveal">
       <h2>Let's talk.</h2>
@@ -52,6 +83,7 @@ import { site } from "../site";
         <a class="pill" href={`mailto:${site.email}`}>{site.email}</a>
         {site.links.map((l) => <a class="more" href={l.url} rel="noopener noreferrer">{l.label}</a>)}
       </div>
+      <p class="small">Found a security issue on this site? <a href="/security">Report it responsibly</a>.</p>
     </div>
   </section>
 </Base>

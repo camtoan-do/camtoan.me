@@ -1,0 +1,40 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+---
+
+<Base title={`Security & disclosure — ${site.name}`}>
+  <article class="prose">
+    <p class="eyebrow">Responsible disclosure</p>
+    <h1>Found a security issue?</h1>
+    <p class="lead">Thank you for looking. If you find a vulnerability on camtoan.me, please tell me privately so I can fix it.</p>
+
+    <h2>How to report</h2>
+    <p>Email <a href={`mailto:${site.email}`}>{site.email}</a> with a description of the issue, steps to reproduce it, and its impact.</p>
+    {site.pgp.file && (
+      <p>For sensitive details, encrypt your message with my <a href={site.pgp.file}>PGP key</a>.
+        {site.pgp.fingerprint && <> Fingerprint: <code>{site.pgp.fingerprint}</code></>}
+      </p>
+    )}
+
+    <h2>What to expect</h2>
+    <ul>
+      <li>I'll acknowledge your report within 3 business days.</li>
+      <li>I'll keep you updated and let you know when it's fixed.</li>
+      <li>With your permission, I'll credit you publicly once it's resolved.</li>
+    </ul>
+
+    <h2>Please don't</h2>
+    <ul>
+      <li>Run denial-of-service or automated high-volume scans.</li>
+      <li>Use social engineering, phishing or physical attacks.</li>
+      <li>Access, change or delete data that isn't yours.</li>
+      <li>Disclose the issue publicly before it's fixed.</li>
+    </ul>
+
+    <h2>Safe harbor</h2>
+    <p>If you act in good faith and follow this policy, I won't pursue legal action against you. This is a personal site, so there's no paid bug bounty — but there is genuine gratitude.</p>
+
+    <p class="small">Machine-readable contact: <a href="/.well-known/security.txt">/.well-known/security.txt</a></p>
+  </article>
+</Base>

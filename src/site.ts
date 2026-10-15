@@ -38,6 +38,19 @@ export const site = {
     ],
   },
 
+  // Shown in the Certifications section. Add a `url` (e.g. your Credly badge link) to make one clickable.
+  certifications: [
+    { name: "AWS Certified Solutions Architect", issuer: "Amazon Web Services", url: "" },
+    { name: "AWS AI Business Strategy — Early Adopter", issuer: "Amazon Web Services", url: "" },
+    { name: "Microsoft Certified: Azure Administrator Associate", issuer: "Microsoft", url: "" },
+    { name: "CompTIA Security+", issuer: "CompTIA", url: "" },
+    { name: "CompTIA Network+", issuer: "CompTIA", url: "" },
+    { name: "CompTIA A+", issuer: "CompTIA", url: "" },
+  ],
+
+  // Path to your PUBLIC PGP key in /public (e.g. "/pgp.asc") and its fingerprint. Leave empty to hide.
+  pgp: { file: "", fingerprint: "" },
+
   links: [
     { label: "GitHub", url: "https://github.com/camtoan-do" },
   ],

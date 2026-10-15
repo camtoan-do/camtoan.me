@@ -156,3 +156,46 @@ footer {
   .band { padding: 72px 1rem; }
   .tile { padding: 32px 24px; }
 }
+
+/* Certifications */
+.certs {
+  max-width: 980px;
+  margin: 3rem auto 0;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.cert {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--bg-alt);
+  color: var(--fg);
+}
+a.cert:hover { text-decoration: none; transform: scale(1.02); transition: transform 0.3s ease; }
+.cert-issuer { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.cert-name { font-size: 19px; font-weight: 600; line-height: 1.25; }
+
+/* Blog cards + articles */
+.tile-link { display: block; color: var(--fg); }
+.tile-link:hover { text-decoration: none; }
+.band-gray > .center { margin-top: 2.5rem; }
+.prose { max-width: 692px; margin: 0 auto; padding: 80px 1rem 100px; }
+.prose h1 { font-size: clamp(36px, 6vw, 56px); margin: 0.25rem 0 0.5rem; }
+.prose .lead { margin: 0 0 2.5rem; }
+.prose h2 { font-size: 28px; margin: 2.5rem 0 0.75rem; }
+.prose p, .prose li { font-size: 19px; line-height: 1.6; }
+.prose ul { padding-left: 1.25rem; }
+.prose hr { border: 0; border-top: 1px solid var(--nav-border); margin: 3rem 0; }
+.prose code { font-size: 0.85em; word-break: break-all; }
+.back { display: inline-block; margin-bottom: 1.5rem; font-size: 17px; }
+.eyebrow { display: block; }
+.small { font-size: 14px; color: var(--muted); margin-top: 2rem; }
+footer a { color: var(--muted); }
+.sep { margin: 0 0.5rem; opacity: 0.5; }
+@media (max-width: 600px) {
+  .nav-links { gap: 0.75rem; }
+  .nav-inner { font-size: 11px; }
+}

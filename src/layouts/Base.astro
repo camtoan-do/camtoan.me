@@ -24,7 +24,8 @@ const { title = site.name } = Astro.props;
         <a class="nav-brand" href="/">{site.name}</a>
         <div class="nav-links">
           <a href="/#services">Services</a>
-          <a href="/#project">Project</a>
+          <a href="/#certifications">Certifications</a>
+          <a href="/blog/">Blog</a>
           <a href="/#contact">Contact</a>
         </div>
       </div>
@@ -32,6 +33,9 @@ const { title = site.name } = Astro.props;
     <main>
       <slot />
     </main>
-    <footer>Copyright © {new Date().getFullYear()} {site.name}. All rights reserved.</footer>
+    <footer>
+      Copyright © {new Date().getFullYear()} {site.name}. All rights reserved.
+      <span class="sep">|</span> <a href="/security">Security & disclosure</a>
+    </footer>
   </body>
 </html>
