@@ -52,7 +52,14 @@ export const site = {
   // Path to your PUBLIC PGP key in /public (e.g. "/pgp.asc") and its fingerprint. Leave empty to hide.
   pgp: { file: "/pgp.asc", fingerprint: "9083 9B9E C1CD 87EB C933  EB78 49A2 57EE 9CAE 466F" },
 
+  // Substack: posts are pulled from the RSS feed at build time and listed on /blog.
+  substack: {
+    profile: "https://substack.com/@camtoando",
+    feed: "https://camtoando.substack.com/feed",
+  },
+
   links: [
     { label: "GitHub", url: "https://github.com/camtoan-do" },
+    { label: "Substack", url: "https://substack.com/@camtoando" },
   ],
 };
