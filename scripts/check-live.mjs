@@ -1,6 +1,7 @@
 // Checks the live site from the outside, like a visitor would.
 // Usage: node scripts/check-live.mjs [https://camtoan.me]
 import { connect } from "node:tls";
+import { resolveMx, resolveTxt, resolveCname } from "node:dns/promises";
 import { appendFileSync } from "node:fs";
 
 const BASE = process.argv[2] ?? "https://camtoan.me";
@@ -88,6 +89,39 @@ await check("TLS certificate valid for 14+ days", () =>
     socket.on("timeout", () => socket.destroy(new Error("timeout")));
   }),
 );
+
+// DNS: email and status-page records must stay intact (only for the real domain).
+if (host === "camtoan.me") {
+  await check("DNS: MX points to Proton", async () => {
+    const mx = (await resolveMx(host)).map((r) => r.exchange).sort();
+    if (!mx.includes("mail.protonmail.ch") || !mx.includes("mailsec.protonmail.ch")) throw new Error(mx.join(", "));
+    return mx.join(", ");
+  });
+  await check("DNS: SPF + Proton verification", async () => {
+    const txt = (await resolveTxt(host)).map((r) => r.join(""));
+    if (!txt.some((t) => t.startsWith("v=spf1") && t.includes("_spf.protonmail.ch"))) throw new Error("SPF missing");
+    if (!txt.some((t) => t.startsWith("protonmail-verification="))) throw new Error("Proton verification missing");
+    return "SPF ok, verification ok";
+  });
+  await check("DNS: DMARC policy", async () => {
+    const txt = (await resolveTxt(`_dmarc.${host}`)).map((r) => r.join(""));
+    const dmarc = txt.find((t) => t.startsWith("v=DMARC1"));
+    if (!dmarc) throw new Error("DMARC missing");
+    return dmarc;
+  });
+  await check("DNS: 3 DKIM keys point to Proton", async () => {
+    for (const k of ["protonmail", "protonmail2", "protonmail3"]) {
+      const [target] = await resolveCname(`${k}._domainkey.${host}`);
+      if (!target?.endsWith(".domains.proton.ch")) throw new Error(`${k}: ${target}`);
+    }
+    return "3/3 keys";
+  });
+  await check("DNS: status page", async () => {
+    const [target] = await resolveCname(`status.${host}`);
+    if (target !== "camtoan-do.github.io") throw new Error(String(target));
+    return target;
+  });
+}
 
 // Print a table, and write it to the GitHub Actions run summary (public on the Actions tab).
 const table = [
