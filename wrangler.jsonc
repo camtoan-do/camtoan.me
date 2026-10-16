@@ -1,0 +1,10 @@
+// Cloudflare Workers config: serves the static site built into dist/.
+// Response headers come from public/_headers.
+{
+  "name": "camtoan-me",
+  "compatibility_date": "2026-10-13",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

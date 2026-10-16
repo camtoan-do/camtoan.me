@@ -42,7 +42,13 @@ else {
   if (daysLeft < 30) fail(`security.txt expires in ${Math.floor(daysLeft)} days — renew the Expires date`);
 }
 
-// 4. Only a PUBLIC PGP key may ever be published.
+// 4. The security headers file must ship, with a Content-Security-Policy.
+const headers = join(DIST, "_headers");
+if (!existsSync(headers) || !readFileSync(headers, "utf8").includes("Content-Security-Policy:")) {
+  fail("_headers is missing or has no Content-Security-Policy");
+}
+
+// 5. Only a PUBLIC PGP key may ever be published.
 const pgp = join(DIST, "pgp.asc");
 if (existsSync(pgp)) {
   const key = readFileSync(pgp, "utf8");
