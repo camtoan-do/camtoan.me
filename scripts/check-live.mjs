@@ -28,7 +28,9 @@ async function get(url) {
 await check("Home page is up", async () => {
   const res = await get(BASE);
   if (res.status !== 200) throw new Error(`HTTP ${res.status}`);
-  return "HTTP 200";
+  const server = res.headers.get("server") ?? "unknown";
+  console.log(`\n::notice::Served by: ${server}`);
+  return `HTTP 200 (server: ${server})`;
 });
 
 await check("HTTP redirects to HTTPS", async () => {
