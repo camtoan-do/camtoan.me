@@ -28,4 +28,8 @@ jobs:
       - name: Wait for Netlify to deploy
         if: github.event_name == 'push'
         run: sleep 120
-      - run: node scripts/check-live.mjs "${{ inputs.url || 'https://camtoan.me' }}"
+      - name: Run checks
+        # Pass the input via env, never inline in the script (avoids shell injection).
+        env:
+          SITE_URL: ${{ inputs.url || 'https://camtoan.me' }}
+        run: node scripts/check-live.mjs "$SITE_URL"
