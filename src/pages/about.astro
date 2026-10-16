@@ -30,13 +30,31 @@ const labels = { education: "Education", work: "Work", community: "Community", m
     </ol>
   </section>
 
-  <section class="band">
+  <section id="certifications" class="band">
+    <div class="narrow center">
+      <h2>Certified.</h2>
+      <p class="body-lg">{site.certifications.length} certifications across cloud, networking and security.</p>
+    </div>
+    <details class="cert-drawer">
+      <summary class="pill">View all certifications</summary>
+      <div class="certs">
+        {site.certifications.map((c) => {
+          const inner = <><span class="cert-issuer">{c.issuer}</span><span class="cert-name">{c.name}</span>{c.url && <span class="cert-verify">Verify ›</span>}</>;
+          return c.url
+            ? <a class="cert" href={c.url} rel="noopener noreferrer">{inner}</a>
+            : <div class="cert">{inner}</div>;
+        })}
+      </div>
+    </details>
+  </section>
+
+  <section class="band band-gray">
     <div class="narrow center">
       <h2>What's next.</h2>
       <p class="body-lg">Growing into site reliability and forward-deployed engineering: learning to code properly, running this site like production, and helping small businesses get the security basics right.</p>
       <div class="ctas">
         <a class="pill" href={`mailto:${site.email}`}>Get in touch</a>
-        <a class="more" href="/certifications/">Certifications</a>
+        <a class="more" href="/blog/">Read the blog</a>
       </div>
     </div>
   </section>

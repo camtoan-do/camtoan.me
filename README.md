@@ -54,7 +54,7 @@ Each live run writes a results table to its run summary on the [Actions tab](htt
 ```
 src/site.ts              ← all the text on the site (edit this)
 src/content/blog/        ← blog posts (one Markdown file each)
-src/pages/               ← pages: home, about, blog, certifications, security
+src/pages/               ← pages: home, about (incl. certifications), blog, security
 src/timeline.ts          ← the About page timeline (edit this)
 src/layouts/Base.astro   ← shared layout (nav, footer)
 src/styles.css           ← design

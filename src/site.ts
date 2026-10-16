@@ -26,6 +26,19 @@ export const site = {
     },
   ],
 
+  // Home page: how an engagement works.
+  process: [
+    { step: "1", title: "Tell me what you need", text: "Email a few lines about your business or website and what worries you." },
+    { step: "2", title: "I take a look", text: "I review what's in scope and send a plain-English report with a prioritized fix list." },
+    { step: "3", title: "Fix it together", text: "Fix it yourself with the report, or I can walk you through it step by step." },
+  ],
+
+  // Home page: quick facts (keep these verifiable).
+  highlights: [
+    { value: "Full-time", label: "Cybersecurity Coordinator" },
+    { value: "3.88 GPA", label: "Information System Security, SAIT" },
+  ],
+
   // This site is the first project: it's hardened, and anyone can verify it.
   project: {
     title: "This website",
@@ -48,6 +61,7 @@ export const site = {
     { name: "CompTIA Security+", issuer: "CompTIA", url: "" },
     { name: "CompTIA Network+", issuer: "CompTIA", url: "" },
     { name: "CompTIA A+", issuer: "CompTIA", url: "" },
+    { name: "GitHub Foundations", issuer: "GitHub", url: "" },
   ],
 
   // Path to your PUBLIC PGP key in /public (e.g. "/pgp.asc") and its fingerprint. Leave empty to hide.

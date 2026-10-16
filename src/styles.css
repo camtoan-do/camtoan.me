@@ -286,3 +286,31 @@ footer a { color: var(--muted); }
 .tl-item details p { margin: 12px 0 0; color: var(--muted); }
 .tl-item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 8px; }
 .timeline.stagger > :nth-child(n + 7) { animation-delay: 1.6s; }
+
+/* Home: quick facts */
+.stats-band { padding: 48px 1rem; }
+.stats { max-width: 980px; margin: 0 auto; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); text-align: center; }
+.stat { display: flex; flex-direction: column; gap: 4px; color: var(--fg); }
+a.stat:hover { text-decoration: none; opacity: 0.85; }
+.stat-value { font-size: 40px; font-weight: 600; letter-spacing: -0.01em; }
+.stat-label { font-size: 15px; color: var(--muted); }
+
+/* Home: how it works */
+.steps { list-style: none; max-width: 980px; margin: 3rem auto 0; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.step { padding: 8px 8px 0; }
+.step-num {
+  display: inline-grid; place-items: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--accent); color: #fff; font-weight: 600; margin-bottom: 14px;
+}
+.step p { margin: 0; color: var(--muted); }
+
+/* About: certifications drawer */
+.cert-drawer { max-width: 980px; margin: 2rem auto 0; text-align: center; }
+.cert-drawer > summary { list-style: none; cursor: pointer; }
+.cert-drawer > summary::-webkit-details-marker { display: none; }
+.cert-drawer > summary::after { content: " ↓"; }
+.cert-drawer[open] > summary::after { content: " ↑"; }
+.cert-drawer .certs { text-align: left; }
+.cert-drawer .cert { background: var(--bg-alt); }
+.cert-verify { font-size: 14px; color: var(--link); margin-top: 4px; }

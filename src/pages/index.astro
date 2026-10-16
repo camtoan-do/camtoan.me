@@ -1,6 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
 import { site } from "../site";
+import { getAllPosts, formatDate } from "../posts";
+
+const latest = (await getAllPosts()).slice(0, 3);
 
 ---
 
@@ -12,6 +15,13 @@ import { site } from "../site";
     <div class="ctas">
       <a class="pill" href={`mailto:${site.email}`}>Get in touch</a>
       <a class="more" href="#services">See services</a>
+    </div>
+  </section>
+
+  <section class="band band-gray stats-band">
+    <div class="stats">
+      <a class="stat" href="/about/#certifications"><span class="stat-value">{site.certifications.length}</span><span class="stat-label">certifications: AWS, Azure, CompTIA</span></a>
+      {site.highlights.map((h) => <div class="stat"><span class="stat-value">{h.value}</span><span class="stat-label">{h.label}</span></div>)}
     </div>
   </section>
 
@@ -35,6 +45,19 @@ import { site } from "../site";
     </div>
   </section>
 
+  <section class="band">
+    <h2 class="center reveal">How it works.</h2>
+    <ol class="steps">
+      {site.process.map((p) => (
+        <li class="step reveal">
+          <span class="step-num">{p.step}</span>
+          <h3>{p.title}</h3>
+          <p>{p.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
   <section id="project" class="band band-dark">
     <div class="narrow center reveal">
       <p class="eyebrow">Project</p>
@@ -44,6 +67,20 @@ import { site } from "../site";
         {site.project.checks.map((c) => <a class="more" href={c.url} rel="noopener noreferrer">{c.label}</a>)}
       </div>
     </div>
+  </section>
+
+  <section class="band band-gray">
+    <h2 class="center reveal">Latest writing.</h2>
+    <div class="tiles">
+      {latest.map((p) => (
+        <a class="tile tile-link reveal" href={p.url} rel={p.external ? "noopener noreferrer" : undefined}>
+          <span class="eyebrow">{formatDate(p.date)}{p.external && " · Substack ↗"}</span>
+          <h3>{p.title}</h3>
+          <p>{p.description}</p>
+        </a>
+      ))}
+    </div>
+    <p class="center"><a class="more" href="/blog/">All posts</a></p>
   </section>
 
   <section id="contact" class="band">

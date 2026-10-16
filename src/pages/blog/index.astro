@@ -1,19 +1,9 @@
 ---
-import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import { site } from "../../site";
-import { getSubstackPosts } from "../../substack";
+import { getAllPosts, formatDate as fmt } from "../../posts";
 
-const local = (await getCollection("blog")).map((p) => ({
-  title: p.data.title,
-  description: p.data.description,
-  date: p.data.date,
-  url: `/blog/${p.id}/`,
-  external: false,
-}));
-const substack = (await getSubstackPosts()).map((p) => ({ ...p, external: true }));
-const posts = [...local, ...substack].sort((a, b) => b.date.valueOf() - a.date.valueOf());
-const fmt = (d: Date) => d.toLocaleDateString("en-US", { dateStyle: "long" });
+const posts = await getAllPosts();
 ---
 
 <Base title={`Blog — ${site.name}`}>
