@@ -62,7 +62,7 @@ await check("Security headers present", async () => {
   return `${required.length}/${required.length} headers`;
 });
 
-for (const path of ["/.well-known/security.txt", "/pgp.asc", "/security/", "/blog/", "/about/"]) {
+for (const path of ["/.well-known/security.txt", "/pgp.asc", "/security/", "/blog/", "/about/", "/features/"]) {
   await check(`${path} reachable`, async () => {
     const res = await get(BASE + path);
     if (res.status !== 200) throw new Error(`HTTP ${res.status}`);

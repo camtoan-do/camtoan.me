@@ -1,0 +1,65 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+import { categories } from "../features";
+
+const total = categories.reduce((n, c) => n + c.features.length, 0);
+---
+
+<Base title={`Security features — ${site.name}`}>
+  <section class="hero stagger">
+    <p class="eyebrow">Security features</p>
+    <h1>Name that<span>security thing.</span></h1>
+    <p class="lead">{categories.length} areas and {total} security features, explained in plain English. Search for anything you've heard of.</p>
+  </section>
+
+  <section class="band band-gray">
+    <div class="search-wrap">
+      <label for="feature-search" class="sr-only">Search security features</label>
+      <input id="feature-search" class="search" type="search" placeholder="Search: MFA, phishing, backups, SIEM…" autocomplete="off" spellcheck="false" />
+      <p id="search-meta" class="search-meta center" aria-live="polite">{categories.length} areas · {total} features · press <kbd>/</kbd> to search</p>
+    </div>
+    <div class="chips" role="group" aria-label="Filter by area">
+      <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+      {categories.map((c) => <button class="chip" type="button" data-filter={c.id} aria-pressed="false">{c.icon} {c.short}</button>)}
+    </div>
+
+    <div class="features">
+      {categories.map((c, i) => (
+        <article
+          class={`feature-card c${(i + 1) % 6}`}
+          id={c.id}
+          data-id={c.id}
+          data-head={`${c.name} ${c.short} ${c.tagline}`.toLowerCase()}
+          data-text={`${c.name} ${c.short} ${c.tagline} ${c.summary} ${c.examples.join(" ")}`.toLowerCase()}
+        >
+          <header class="fc-head">
+            <span class="fc-icon" aria-hidden="true">{c.icon}</span>
+            <div>
+              <h3>{c.name}</h3>
+              <span class="fc-tag">{c.tagline}</span>
+            </div>
+          </header>
+          <div class="fc-body">
+            <p>{c.summary}</p>
+            <p class="fc-why">{c.why}</p>
+            <ul class="fc-list">
+              {c.features.map((f) => <li><strong>{f.name}</strong><span>{f.desc}</span></li>)}
+            </ul>
+            {c.examples.length > 0 && <p class="fc-examples"><b>Examples:</b> {c.examples.join(", ")}</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+    <p id="no-results" class="no-results" hidden>No matches. Try a simpler word, or <a href={`mailto:${site.email}`}>ask me</a>.</p>
+  </section>
+
+  <section class="band">
+    <div class="narrow center">
+      <h2>Not sure what you need?</h2>
+      <p class="body-lg">Most small businesses don't need all of this. Tell me what you have and I'll tell you which few things matter most.</p>
+      <div class="ctas"><a class="pill" href={`mailto:${site.email}`}>Get in touch</a></div>
+    </div>
+  </section>
+  <script is:inline src="/features.js" defer></script>
+</Base>

@@ -13,6 +13,8 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 
 ## Where things live
 - Text: `src/site.ts` · About timeline: `src/timeline.ts` · Posts: `src/content/blog/`
+- Security features page: data `src/features.ts`, page `src/pages/features.astro`, search `public/features.js` (external file, CSP-safe)
+- Design: neobrutalism (thick borders, hard shadows, flat bright colors) in `src/styles.css`
 - Security headers: `public/_headers` (strict CSP — no inline scripts/styles) · Redirects: `public/_redirects`
 - Checks: `scripts/check-build.mjs` (CI) and `scripts/check-live.mjs` (hourly; site, headers, TLS, email DNS)
 
