@@ -2,6 +2,9 @@
   command = "npm run build"
   publish = "dist"
   environment = { NODE_VERSION = "22" }
+  # Skip the build when a push only touches files that don't affect the site
+  # (README, CI workflows, check scripts). Exit 0 = skip, exit 1 = build.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)README.md' ':(exclude).github/' ':(exclude)scripts/'"
 
 # Security headers for every page.
 [[headers]]
