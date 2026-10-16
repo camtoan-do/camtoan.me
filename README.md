@@ -86,7 +86,7 @@ Pushing to `main` deploys automatically.
 ## Roadmap
 
 - [x] Public status page with uptime history
-- [ ] Manage DNS and Netlify settings with Terraform
+- [ ] Manage Cloudflare DNS and Workers settings with Terraform
 - [ ] Define and publish an availability SLO
 
 ## Contact
