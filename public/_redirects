@@ -1,3 +1,5 @@
 # Old URLs that moved.
 /certifications   /about/#certifications   301
 /certifications/  /about/#certifications   301
+/features         /                        301
+/features/        /                        301

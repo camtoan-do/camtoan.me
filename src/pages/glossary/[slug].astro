@@ -1,0 +1,104 @@
+---
+import Base from "../../layouts/Base.astro";
+import { site } from "../../site";
+import { concepts } from "../../features";
+import type { ConceptEntry } from "../../features";
+import { featureAnims } from "../../animations";
+import "../../animations.css";
+
+export function getStaticPaths() {
+  return concepts.map((c) => ({
+    params: { slug: c.path },
+    props: { concept: c },
+  }));
+}
+
+interface Props {
+  concept: ConceptEntry;
+}
+const { concept } = Astro.props;
+const { name, desc, cat } = concept;
+const anim = featureAnims[concept.path];
+
+// Siblings in the same area, plus prev/next across the whole glossary.
+const related = concepts.filter((c) => c.cat.id === cat.id && c.path !== concept.path);
+const i = concepts.findIndex((c) => c.path === concept.path);
+const prev = concepts[(i - 1 + concepts.length) % concepts.length];
+const next = concepts[(i + 1) % concepts.length];
+---
+
+<Base title={`${name} — Security glossary — ${site.name}`}>
+  <article class="concept-page">
+    <p class="crumbs">
+      <a href="/">Glossary</a> <span aria-hidden="true">/</span>
+      <a href={`/?area=${cat.id}`}>{cat.icon} {cat.short}</a>
+    </p>
+
+    <header class="cp-head stagger">
+      <span class="cp-icon" aria-hidden="true">{cat.icon}</span>
+      <p class="eyebrow">{cat.name}</p>
+      <h1>{name}</h1>
+      <p class="lead">{desc}</p>
+    </header>
+
+    {anim && (
+      <section class="band">
+        <div class="narrow">
+          <div class="feat-anim" data-anim={anim.kind} aria-label={`${name} animation`}></div>
+          {anim.caption && <p class="feat-cap">{anim.caption}</p>}
+        </div>
+      </section>
+    )}
+
+    <section class="band">
+      <div class="narrow">
+        <div class="cp-card reveal">
+          <h2>Why this matters</h2>
+          <p class="body-lg">{cat.why}</p>
+        </div>
+        {cat.examples.length > 0 && (
+          <div class="cp-card reveal">
+            <h2>You might see this as</h2>
+            <div class="cp-examples">
+              {cat.examples.map((e) => <span class="cp-example">{e}</span>)}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+    {related.length > 0 && (
+      <section class="band band-gray">
+        <div class="narrow">
+          <h2 class="reveal">More in {cat.short}</h2>
+          <div class="cp-related">
+            {related.map((r) => (
+              <a class="cp-related-link reveal" href={`/glossary/${r.path}/`}>
+                <span class="cp-related-name">{r.name}</span>
+                <span class="cp-related-desc">{r.desc}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <nav class="cp-nav band" aria-label="Browse concepts">
+      <a class="cp-prev" href={`/glossary/${prev.path}/`}><span class="cp-dir">← Previous</span><span class="cp-nav-name">{prev.name}</span></a>
+      <a class="pill" href="/">All concepts</a>
+      <a class="cp-next" href={`/glossary/${next.path}/`}><span class="cp-dir">Next →</span><span class="cp-nav-name">{next.name}</span></a>
+    </nav>
+
+    <section class="band band-gray">
+      <div class="narrow center reveal">
+        <h2>Want help with {cat.short.toLowerCase()}?</h2>
+        <p class="body-lg">Tell me what you have and I'll tell you which few things actually matter for you.</p>
+        <div class="ctas">
+          <a class="pill" href={`mailto:${site.email}`}>Get in touch</a>
+          <a class="more" href="/services/">See what I offer</a>
+        </div>
+      </div>
+    </section>
+  </article>
+  {anim && <script is:inline src="/animations.js" defer></script>}
+</Base>

@@ -18,6 +18,10 @@ export interface Category {
   examples: string[];
 }
 
+// URL-safe slug from a concept name, e.g. "Antivirus (AV)" -> "antivirus-av".
+export const slugify = (s: string): string =>
+  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
 export const categories: Category[] = [
   {
     id: "identity-access",
@@ -327,3 +331,21 @@ export const categories: Category[] = [
     examples: [],
   },
 ];
+
+// A flat list of every concept, each with a stable URL path ("<category>-<name>"),
+// used by the glossary landing and the per-concept pages under /glossary/.
+export interface ConceptEntry {
+  name: string;
+  desc: string;
+  cat: Category;
+  path: string;
+}
+
+export const concepts: ConceptEntry[] = categories.flatMap((c) =>
+  c.features.map((f) => ({
+    name: f.name,
+    desc: f.desc,
+    cat: c,
+    path: `${c.id}-${slugify(f.name)}`,
+  })),
+);

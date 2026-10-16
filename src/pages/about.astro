@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import Shield from "../components/Shield.astro";
 import { site } from "../site";
 import { timeline } from "../timeline";
 
@@ -11,6 +12,30 @@ const labels = { education: "Education", work: "Work", community: "Community", m
     <p class="eyebrow">About</p>
     <h1>My story so far.</h1>
     <p class="lead">From moving to Canada in 2024 to a full-time security role. Tap any step to read more.</p>
+    <div class="hero-shield"><Shield pose="wave" size={120} float label="Shield waving hello" /></div>
+  </section>
+
+  <section class="band band-gray stats-band">
+    <div class="stats">
+      <a class="stat" href="/about/#certifications"><span class="stat-value">{site.certifications.length}</span><span class="stat-label">certifications: AWS, Azure, CompTIA</span></a>
+      {site.highlights.map((h) => <div class="stat"><span class="stat-value">{h.value}</span><span class="stat-label">{h.label}</span></div>)}
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="narrow reveal">
+      <h2>No jargon. No scare tactics.</h2>
+      {site.about.map((p) => <p class="body-lg">{p}</p>)}
+    </div>
+  </section>
+
+  <section class="band band-gray">
+    <div class="narrow center reveal">
+      <p class="eyebrow">Why "{site.brand.name}"?</p>
+      <h2>{site.brand.name}.</h2>
+      <p class="body-lg">{site.brand.meaning}</p>
+      <p class="small">Said <i>{site.brand.pronounce}</i>. The glossary — <b>{site.brand.product}</b> — is the first thing to live under it; <a href="/products/">more are on the way</a>.</p>
+    </div>
   </section>
 
   <section class="band band-gray">
@@ -56,6 +81,19 @@ const labels = { education: "Education", work: "Work", community: "Community", m
         <a class="pill" href={`mailto:${site.email}`}>Get in touch</a>
         <a class="more" href="/blog/">Read the blog</a>
       </div>
+    </div>
+  </section>
+
+  <section id="contact" class="band band-gray">
+    <div class="narrow center reveal">
+      <h2>Let's talk.</h2>
+      <p class="body-lg">Tell me briefly what you need and I'll reply within a couple of days.</p>
+      <div class="ctas">
+        <a class="pill" href={`mailto:${site.email}`}>{site.email}</a>
+        {site.links.map((l) => <a class="more" href={l.url} rel="noopener noreferrer">{l.label}</a>)}
+      </div>
+      {site.pgp.file && <p class="small">Sensitive? Encrypt with my <a href={site.pgp.file}>PGP key</a>.</p>}
+      <p class="small">Found a security issue on this site? <a href="/security">Report it responsibly</a>.</p>
     </div>
   </section>
 </Base>

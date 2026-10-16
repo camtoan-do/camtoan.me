@@ -1,0 +1,50 @@
+---
+import Base from "../layouts/Base.astro";
+import Shield from "../components/Shield.astro";
+import { site } from "../site";
+---
+
+<Base title={`Products — ${site.brand.name}`}>
+  <section class="hero stagger">
+    <p class="eyebrow">Products</p>
+    <h1>Built under<span>{site.brand.name}.</span></h1>
+    <p class="lead">Small, useful security tools for people without a security team. The glossary is live — the rest of the workshop is still being built.</p>
+    <div class="hero-shield"><Shield pose="work" size={120} float label="Shield in a hard hat, building things" /></div>
+  </section>
+
+  <section class="band">
+    <div class="construction-banner reveal">
+      <span class="cb-stripe" aria-hidden="true"></span>
+      <p>🚧 Under construction — more products are on the way.</p>
+      <span class="cb-stripe" aria-hidden="true"></span>
+    </div>
+
+    <div class="products">
+      <a class="product-card live reveal" href="/">
+        <span class="product-badge live">Live</span>
+        <h3>{site.brand.product}</h3>
+        <p>An interactive glossary of security terms, each explained in plain English — search it, browse by area, and open any concept on its own page.</p>
+        <span class="more">Open it</span>
+      </a>
+
+      <div class="product-card soon reveal">
+        <span class="product-badge soon">In the works</span>
+        <h3>Something new</h3>
+        <p>More small tools for small businesses. Got one you'd actually use? Tell me — it might jump the queue.</p>
+        <span class="product-soon-note">Coming soon</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-gray">
+    <div class="narrow center reveal">
+      <p class="eyebrow">The name</p>
+      <h2>Why "{site.brand.name}"?</h2>
+      <p class="body-lg">{site.brand.meaning}</p>
+      <div class="ctas">
+        <a class="pill" href={`mailto:${site.email}?subject=${encodeURIComponent("Product idea for " + site.brand.name)}`}>Suggest a tool</a>
+        <a class="more" href="/about/">About me</a>
+      </div>
+    </div>
+  </section>
+</Base>

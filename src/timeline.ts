@@ -65,13 +65,6 @@ export const timeline = [
     detail: "Finished my diploma while already working in security.",
   },
   {
-    date: "Jun 2026",
-    kind: "cert",
-    title: "GitHub Foundations",
-    org: "GitHub",
-    detail: "Earned through DataCamp's GitHub Foundations track. It got me back into a study rhythm.",
-  },
-  {
     date: "Jul 2026",
     kind: "cert",
     title: "Azure Administrator Associate",

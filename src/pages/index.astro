@@ -1,99 +1,91 @@
 ---
 import Base from "../layouts/Base.astro";
+import Shield from "../components/Shield.astro";
 import { site } from "../site";
-import { getAllPosts, formatDate } from "../posts";
+import { categories, concepts } from "../features";
 
-const latest = (await getAllPosts()).slice(0, 3);
-
+// Shuffle a copy for the marquee so the scroll order varies per build.
+const marquee = [...concepts].sort(() => Math.random() - 0.5);
 ---
 
-<Base title={`${site.name} — ${site.role}`}>
+<Base title={`Feature lookup — ${site.name}`}>
+  <div class="marquee" aria-label="Security concepts">
+    <div class="marquee-track">
+      {marquee.map((c) => (
+        <a class="marquee-item" href={`/glossary/${c.path}/`}>{c.cat.icon} {c.name}</a>
+      ))}
+      {marquee.map((c) => (
+        <a class="marquee-item" href={`/glossary/${c.path}/`} aria-hidden="true" tabindex="-1">{c.cat.icon} {c.name}</a>
+      ))}
+    </div>
+  </div>
+
   <section class="hero stagger">
-    <p class="eyebrow">{site.role}</p>
-    <h1>{site.headline.split("\n").map((line) => <span>{line}</span>)}</h1>
-    <p class="lead">{site.tagline}</p>
-    <div class="ctas">
-      <a class="pill" href={`mailto:${site.email}`}>Get in touch</a>
-      <a class="more" href="#services">See services</a>
-    </div>
-  </section>
-
-  <section class="band band-gray stats-band">
-    <div class="stats">
-      <a class="stat" href="/about/#certifications"><span class="stat-value">{site.certifications.length}</span><span class="stat-label">certifications: AWS, Azure, CompTIA</span></a>
-      {site.highlights.map((h) => <div class="stat"><span class="stat-value">{h.value}</span><span class="stat-label">{h.label}</span></div>)}
-    </div>
-  </section>
-
-  <section class="band">
-    <div class="narrow reveal">
-      <h2>No jargon. No scare tactics.</h2>
-      {site.about.map((p) => <p class="body-lg">{p}</p>)}
-      <a class="more" href="/about/">My story so far</a>
-    </div>
-  </section>
-
-  <section id="services" class="band band-gray">
-    <h2 class="center reveal">What I can do for you.</h2>
-    <div class="tiles">
-      {site.services.map((s) => (
-        <article class="tile reveal">
-          <h3>{s.title}</h3>
-          <p>{s.text}</p>
-        </article>
-      ))}
-    </div>
-    <p class="center"><a class="pill" href="/features/">Explore 15 areas of security →</a></p>
-  </section>
-
-  <section class="band">
-    <h2 class="center reveal">How it works.</h2>
-    <ol class="steps">
-      {site.process.map((p) => (
-        <li class="step reveal">
-          <span class="step-num">{p.step}</span>
-          <h3>{p.title}</h3>
-          <p>{p.text}</p>
-        </li>
-      ))}
-    </ol>
-  </section>
-
-  <section id="project" class="band band-dark">
-    <div class="narrow center reveal">
-      <p class="eyebrow">Project</p>
-      <h2>{site.project.title}.<br />Hardened by design.</h2>
-      <p class="body-lg">{site.project.text}</p>
-      <div class="checks">
-        {site.project.checks.map((c) => <a class="more" href={c.url} rel="noopener noreferrer">{c.label}</a>)}
-      </div>
-    </div>
+    <p class="eyebrow">feature-lookup · interactive glossary</p>
+    <h1><span>Name that</span><span>security thing.</span></h1>
+    <p class="lead">Every security term, explained in plain English. Pick an area, search for anything you've heard of, or just start clicking.</p>
+    <div class="hero-shield"><Shield pose="lookup" size={120} float label="Shield with a magnifying glass" /></div>
   </section>
 
   <section class="band band-gray">
-    <h2 class="center reveal">Latest writing.</h2>
-    <div class="tiles">
-      {latest.map((p) => (
-        <a class="tile tile-link reveal" href={p.url} rel={p.external ? "noopener noreferrer" : undefined}>
-          <span class="eyebrow">{formatDate(p.date)}{p.external && " · Substack ↗"}</span>
-          <h3>{p.title}</h3>
-          <p>{p.description}</p>
+    <div class="search-wrap">
+      <label for="feature-search" class="sr-only">Search security concepts</label>
+      <div class="combobox">
+        <input
+          id="feature-search"
+          class="search"
+          type="text"
+          role="combobox"
+          placeholder="Search: MFA, phishing, backups, SIEM…"
+          autocomplete="off"
+          spellcheck="false"
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-controls="search-listbox"
+        />
+        <ul id="search-listbox" class="combo-list" role="listbox" aria-label="Matching concepts" hidden></ul>
+      </div>
+      <p id="search-meta" class="search-meta center" aria-live="polite">Press <kbd>/</kbd> to search · <kbd>↑</kbd><kbd>↓</kbd> to pick · <kbd>Enter</kbd> to open</p>
+    </div>
+    <div class="chips" role="group" aria-label="Choose an area">
+      <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+      {categories.map((c) => <button class="chip" type="button" data-filter={c.id} aria-pressed="false">{c.icon} {c.short}</button>)}
+    </div>
+  </section>
+
+  <section id="results" class="band">
+    {categories.map((c) => (
+      <header class="cat-field" data-category={c.id} hidden>
+        <span class="cat-icon" aria-hidden="true">{c.icon}</span>
+        <h2>{c.name}</h2>
+        <p class="cat-tagline">{c.tagline}</p>
+        <p>{c.summary}</p>
+        <p class="cat-why">{c.why}</p>
+        {c.examples.length > 0 && <p class="cat-examples"><b>Examples:</b> {c.examples.join(", ")}</p>}
+      </header>
+    ))}
+
+    <div class="concepts">
+      {concepts.map((c) => (
+        <a
+          class="concept"
+          href={`/glossary/${c.path}/`}
+          data-category={c.cat.id}
+          data-name={c.name.toLowerCase()}
+          data-text={`${c.name} ${c.desc} ${c.cat.name} ${c.cat.short}`.toLowerCase()}
+        >
+          <span class="concept-name">{c.name}</span>
+          <span class="concept-cat">{c.cat.icon} {c.cat.short}</span>
+          <span class="concept-desc">{c.desc}</span>
+          <span class="concept-go" aria-hidden="true">Learn more →</span>
         </a>
       ))}
     </div>
-    <p class="center"><a class="more" href="/blog/">All posts</a></p>
-  </section>
-
-  <section id="contact" class="band">
-    <div class="narrow center reveal">
-      <h2>Let's talk.</h2>
-      <p class="body-lg">Tell me briefly what you need and I'll reply within a couple of days.</p>
-      <div class="ctas">
-        <a class="pill" href={`mailto:${site.email}`}>{site.email}</a>
-        {site.links.map((l) => <a class="more" href={l.url} rel="noopener noreferrer">{l.label}</a>)}
-      </div>
-      {site.pgp.file && <p class="small">Sensitive? Encrypt with my <a href={site.pgp.file}>PGP key</a>.</p>}
-      <p class="small">Found a security issue on this site? <a href="/security">Report it responsibly</a>.</p>
+    <div id="no-results" class="no-results" hidden>
+      <Shield pose="shrug" size={84} label="Shield shrugging" />
+      <p>No matches. Try a simpler word, or <a href={`mailto:${site.email}`}>ask me</a>.</p>
     </div>
   </section>
+
+  <script is:inline src="/glossary.js" defer></script>
 </Base>
