@@ -4,7 +4,7 @@
 [![Live checks](https://github.com/camtoan-do/camtoan.me/actions/workflows/live.yml/badge.svg)](https://github.com/camtoan-do/camtoan.me/actions/workflows/live.yml)
 [![Status](https://img.shields.io/badge/status-status.camtoan.me-brightgreen)](https://status.camtoan.me)
 
-The personal website of **Cam Toan Do**, cybersecurity analyst. It offers practical security help for small businesses and individuals.
+The personal website of **Cam Toan Do**, cybersecurity coordinator. It offers practical security help for small businesses and individuals.
 
 **Live:** https://camtoan.me
 
@@ -54,7 +54,8 @@ Each live run writes a results table to its run summary on the [Actions tab](htt
 ```
 src/site.ts              ← all the text on the site (edit this)
 src/content/blog/        ← blog posts (one Markdown file each)
-src/pages/               ← pages: home, blog, certifications, security
+src/pages/               ← pages: home, about, blog, certifications, security
+src/timeline.ts          ← the About page timeline (edit this)
 src/layouts/Base.astro   ← shared layout (nav, footer)
 src/styles.css           ← design
 public/                  ← files served as-is (security.txt, pgp.asc, favicon)
