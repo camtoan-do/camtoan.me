@@ -94,17 +94,21 @@ await check("TLS certificate valid for 14+ days", () =>
 
 // DNS: email and status-page records must stay intact (only for the real domain).
 if (host === "camtoan.me") {
-  // Informational: where DNS currently points (public view vs. our authoritative nameserver).
+  // Informational: where DNS points, asked straight from our authoritative nameserver
+  // (bypasses resolver caches), plus the public view.
   try {
     const ns = (await resolveNs(host)).sort();
-    const pub = (await resolve4(host)).sort();
     const auth = new Resolver();
     auth.setServers(await resolve4(ns[0]));
-    const direct = (await auth.resolve4(host)).sort();
-    console.log(`\n::notice::DNS: nameservers ${ns.join(", ")} | public A ${pub.join(", ")} | authoritative A ${direct.join(", ")}`);
+    const ask = async (r, name) => {
+      try { return (await r.resolve4(name)).sort().join(", "); }
+      catch (e) { try { return "CNAME " + (await r.resolveCname(name)).join(", "); } catch { return e.code; } }
+    };
+    console.log(`\n::notice::DNS: nameservers ${ns.join(", ")} | authoritative apex ${await ask(auth, host)} | authoritative www ${await ask(auth, "www." + host)} | public apex ${await ask(new Resolver(), host)}`);
   } catch (e) {
     console.log(`\n::notice::DNS lookup info unavailable: ${e.message}`);
   }
+
   await check("DNS: MX points to Proton", async () => {
     const mx = (await resolveMx(host)).map((r) => r.exchange).sort();
     if (!mx.includes("mail.protonmail.ch") || !mx.includes("mailsec.protonmail.ch")) throw new Error(mx.join(", "));
