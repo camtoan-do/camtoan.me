@@ -1,7 +1,7 @@
 // Checks the live site from the outside, like a visitor would.
 // Usage: node scripts/check-live.mjs [https://camtoan.me]
 import { connect } from "node:tls";
-import { resolveMx, resolveTxt, resolveCname } from "node:dns/promises";
+import { resolveMx, resolveTxt, resolveCname, resolveNs, resolve4, Resolver } from "node:dns/promises";
 import { appendFileSync } from "node:fs";
 
 const BASE = process.argv[2] ?? "https://camtoan.me";
@@ -94,6 +94,17 @@ await check("TLS certificate valid for 14+ days", () =>
 
 // DNS: email and status-page records must stay intact (only for the real domain).
 if (host === "camtoan.me") {
+  // Informational: where DNS currently points (public view vs. our authoritative nameserver).
+  try {
+    const ns = (await resolveNs(host)).sort();
+    const pub = (await resolve4(host)).sort();
+    const auth = new Resolver();
+    auth.setServers(await resolve4(ns[0]));
+    const direct = (await auth.resolve4(host)).sort();
+    console.log(`\n::notice::DNS: nameservers ${ns.join(", ")} | public A ${pub.join(", ")} | authoritative A ${direct.join(", ")}`);
+  } catch (e) {
+    console.log(`\n::notice::DNS lookup info unavailable: ${e.message}`);
+  }
   await check("DNS: MX points to Proton", async () => {
     const mx = (await resolveMx(host)).map((r) => r.exchange).sort();
     if (!mx.includes("mail.protonmail.ch") || !mx.includes("mailsec.protonmail.ch")) throw new Error(mx.join(", "));
