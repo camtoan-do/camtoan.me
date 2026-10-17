@@ -26,4 +26,4 @@ The **OWASP Top 10** is the most widely used list of the biggest security risks 
 
 - Headers: [securityheaders.com](https://securityheaders.com/?q=camtoan.me&followRedirects=on) · [Mozilla Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=camtoan.me)
 - TLS: [SSL Labs](https://www.ssllabs.com/ssltest/analyze.html?d=camtoan.me)
-- Code: [public repository](https://github.com/camtoan-do/camtoan.me)
+- Code: [public repository](https://github.com/camtoan-do/kamllistos)

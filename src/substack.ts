@@ -10,9 +10,18 @@ export interface SubstackPost {
 const tag = (xml: string, name: string) =>
   xml.match(new RegExp(`<${name}>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?</${name}>`))?.[1].trim() ?? "";
 
-const decode = (s: string) =>
-  s.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+// Turns RSS HTML into plain text. (Astro escapes it again when rendering, so this is for readability.)
+const decode = (input: string) => {
+  // Strip tags repeatedly until none remain: one pass can leave fragments like "<scr<b>ipt>".
+  let s = input;
+  let prev: string;
+  do {
+    prev = s;
+    s = s.replace(/<[^>]*>/g, "");
+  } while (s !== prev);
+  // Decode &amp; LAST, so "&amp;lt;" becomes the text "&lt;" instead of being unescaped twice into "<".
+  return s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, "&");
+};
 
 let cache: Promise<SubstackPost[]> | undefined;
 

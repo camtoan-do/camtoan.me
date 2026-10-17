@@ -9,7 +9,7 @@ export const site = {
   // Studio/brand the site and its products live under.
   brand: {
     name: "Kamllistos",
-    pronounce: "kuh-LEES-tos",
+    pronounce: "kam-LEES-tos",
     meaning:
       "A play on my name, Cam, and the Greek Κάλλιστος (kállistos) — “most excellent.” It's the banner the tools and products here live under.",
     product: "feature-lookup",
@@ -113,8 +113,8 @@ export const site = {
       { label: "Mozilla Observatory", url: "https://developer.mozilla.org/en-US/observatory/analyze?host=camtoan.me" },
       { label: "SSL Labs (HTTPS)", url: "https://www.ssllabs.com/ssltest/analyze.html?d=camtoan.me" },
       { label: "Status page", url: "https://status.camtoan.me" },
-      { label: "Hourly live checks", url: "https://github.com/camtoan-do/camtoan.me/actions/workflows/live.yml" },
-      { label: "Source code", url: "https://github.com/camtoan-do/camtoan.me" },
+      { label: "Hourly live checks", url: "https://github.com/camtoan-do/kamllistos/actions/workflows/live.yml" },
+      { label: "Source code", url: "https://github.com/camtoan-do/kamllistos" },
     ],
   },
 

@@ -471,3 +471,14 @@ footer .updated { background: var(--green); color: #000; padding: 1px 8px; borde
 }
 .doc .back { display: block; width: fit-content; margin-bottom: 1rem; }
 .doc td code, .doc th code { word-break: normal; white-space: nowrap; }
+
+/* Footer: one centered row that wraps neatly; everything vertically aligned. */
+footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 22px; }
+footer .sep { display: none; }
+.footer-links { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 16px; margin-top: 0; }
+footer .updated { display: inline-block; line-height: 1.4; padding: 2px 10px; font-weight: 800; }
+
+/* Readability: small print and links must stay high-contrast. */
+.small { color: var(--ink); font-weight: 600; font-size: 15px; }
+.band-gray .small, .band-dark .small, .band-gray .small a, .band-dark .small a { color: var(--on-color); }
+.band-gray :is(.ctas, .center, .lead, .body-lg) > a:not(.pill), .band-dark :is(.ctas, .center, .lead, .body-lg) > a:not(.pill) { color: var(--on-color); }
