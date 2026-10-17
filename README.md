@@ -49,6 +49,13 @@ Each live run writes a results table to its run summary on the [Actions tab](htt
 
 **Status page:** [status.camtoan.me](https://status.camtoan.me) shows uptime history and response times. It's built with [Upptime](https://upptime.js.org) in [camtoan-do/status](https://github.com/camtoan-do/status). It checks every 5 minutes, and outages open and close GitHub issues automatically.
 
+## Docs, API & changelog
+
+- **Public docs:** [camtoan.me/docs](https://camtoan.me/docs/) — Git & GitHub, GitHub Actions, CodeQL, Dependabot, REST API & Postman, OWASP Top 10.
+- **Stack:** [camtoan.me/stack](https://camtoan.me/stack/) — every tool, honestly labelled in use / planned / lab.
+- **REST API:** read-only JSON on [`/api`](https://camtoan.me/api) ([`worker/index.ts`](worker/index.ts)), described by [`openapi.json`](public/openapi.json) and tested hourly with the [Postman collection](public/postman/kamllistos-api.postman_collection.json).
+- **Changelog:** [camtoan.me/changelog](https://camtoan.me/changelog/), generated from this repo's commit history.
+
 ## Project structure
 
 ```

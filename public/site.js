@@ -28,6 +28,15 @@
     }
   }
 
+  // --- "X days since last update" (computed in the browser so it never goes stale) ---
+  for (const el of document.querySelectorAll(".updated[data-updated]")) {
+    const then = new Date(el.dataset.updated);
+    if (isNaN(then)) continue;
+    const days = Math.max(0, Math.floor((Date.now() - then.getTime()) / 864e5));
+    el.textContent = days === 0 ? "Updated today" : days === 1 ? "1 day since last update" : `${days} days since last update`;
+    el.title = `Last update: ${then.toLocaleString()}`;
+  }
+
   // --- Mascot eyes follow the cursor ---
   const mascot = document.getElementById("mascot");
   if (mascot) {

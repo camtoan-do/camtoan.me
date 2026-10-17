@@ -5,6 +5,7 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 
 ## Stack (all free except domain + Proton)
 - Astro static site → Cloudflare Workers static assets (`wrangler.jsonc`), deploys on push to `main`.
+- Public read-only REST API on `/api/*` (`worker/index.ts`, GET only). Spec `public/openapi.json`; Postman collection `public/postman/` (run hourly via Newman in live checks).
 - DNS: Cloudflare (nameservers seamus/tegan). Domain registered at Namecheap (auto-renew on, expires 2027-07-08).
 - Email: Proton Mail, official@camtoan.me. MX/SPF/DKIM(3 CNAMEs)/DMARC must stay **DNS only** in Cloudflare.
 - Status page: status.camtoan.me (Upptime, repo camtoan-do/status, CNAME → camtoan-do.github.io, DNS only).
@@ -13,15 +14,21 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 
 ## Where things live
 - Text: `src/site.ts` · About timeline: `src/timeline.ts` · Posts: `src/content/blog/`
-- Security features page: data `src/features.ts`, page `src/pages/features.astro`, search `public/features.js` (external file, CSP-safe)
+- Security glossary: data `src/features.ts` → home page + `/glossary/<concept>/` pages (also served by `/api/glossary`)
 - Design: neobrutalism (thick borders, hard shadows, flat bright colors) in `src/styles.css`
 - Security headers: `public/_headers` (strict CSP — no inline scripts/styles) · Redirects: `public/_redirects`
-- Checks: `scripts/check-build.mjs` (CI) and `scripts/check-live.mjs` (hourly; site, headers, TLS, email DNS)
+- Checks: `scripts/check-build.mjs` (CI) and `scripts/check-live.mjs` (hourly; site, headers, TLS, email DNS) + Newman API tests
+- Security automation: CodeQL (`.github/workflows/codeql.yml`), Dependabot (`.github/dependabot.yml`)
+- Changelog: generated from Git history (`src/changelog.ts`) → `/changelog`, `/changelog.json`, footer "days since update" (computed in `public/site.js`)
+- Public docs: `src/content/docs/*.md` → `/docs/`; stack list `src/stack.ts` → `/stack/` (statuses must stay honest)
+- Icons: `public/icon.png`, `icon-48.png`, `apple-touch-icon.png` (square K mark)
 
 ## Rules
 - Run `npm run build && npm run check:build` before pushing.
 - Never put secrets in the repo or chat; tokens go in GitHub/Cloudflare secrets.
 - Don't invent facts about the owner (certs, clients, dates).
+- Commit messages are published on /changelog — write them in plain English for humans.
+- Public docs must never include secrets, token values, account IDs or private contact details.
 
 ## Open items
 - Enable DNSSEC (Cloudflare → DS record in Namecheap).

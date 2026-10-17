@@ -1,0 +1,248 @@
+{
+  "info": {
+    "name": "Kamllistos API",
+    "description": "Public read-only API behind camtoan.me. Docs: https://camtoan.me/docs/rest-api/",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://camtoan.me"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "health"
+          ],
+          "query": []
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Status is ok\", () => pm.expect(pm.response.json().status).to.eql(\"ok\"));",
+              "pm.test(\"Has security headers\", () => { pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\"); pm.response.to.have.header(\"Strict-Transport-Security\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Changelog (latest 5)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/changelog?limit=5",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "changelog"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Returns at most 5 changes\", () => pm.expect(pm.response.json().changes.length).to.be.at.most(5));",
+              "pm.test(\"Has security headers\", () => { pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\"); pm.response.to.have.header(\"Strict-Transport-Security\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Changelog: invalid limit \u2192 400",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/changelog?limit=abc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "changelog"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "abc"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Rejects bad input with 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"Error code\", () => pm.expect(pm.response.json().error.code).to.eql(\"invalid_limit\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Glossary search: mfa",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/glossary?q=mfa",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "glossary"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "mfa"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Finds MFA\", () => pm.expect(pm.response.json().total).to.be.above(0));",
+              "pm.test(\"Has security headers\", () => { pm.response.to.have.header(\"X-Content-Type-Options\", \"nosniff\"); pm.response.to.have.header(\"Strict-Transport-Security\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Glossary categories",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/glossary/categories",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "glossary",
+            "categories"
+          ],
+          "query": []
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Has categories\", () => pm.expect(pm.response.json().count).to.be.above(0));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Glossary: unknown category \u2192 400",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/glossary?category=nope",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "glossary"
+          ],
+          "query": [
+            {
+              "key": "category",
+              "value": "nope"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Rejects unknown category\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Write attempt \u2192 405",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "health"
+          ],
+          "query": []
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Read-only API rejects POST\", () => pm.response.to.have.status(405));",
+              "pm.test(\"Allow header\", () => pm.response.to.have.header(\"Allow\"));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

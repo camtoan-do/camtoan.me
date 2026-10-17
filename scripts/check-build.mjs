@@ -25,6 +25,7 @@ for (const file of html) {
 
   // 2. Every internal link must point at a page or file that exists.
   for (const [, href] of src.matchAll(/href="(\/[^"#?]*)/g)) {
+    if (href === "/api" || href.startsWith("/api/")) continue; // served by the API Worker, not files
     const path = join(DIST, href);
     const ok = existsSync(path) && statSync(path).isFile()
       || existsSync(join(path, "index.html"))

@@ -1,0 +1,38 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+import { getChanges } from "../changelog";
+
+const changes = await getChanges();
+const day = (iso: string) => new Date(iso).toLocaleDateString("en-US", { dateStyle: "long", timeZone: "America/Edmonton" });
+const groups = new Map<string, typeof changes>();
+for (const c of changes) {
+  const d = day(c.date);
+  groups.set(d, [...(groups.get(d) ?? []), c]);
+}
+---
+
+<Base title={`Changelog — ${site.name}`}>
+  <section class="hero stagger">
+    <p class="eyebrow">Changelog</p>
+    <h1>Every change,<span>in order.</span></h1>
+    <p class="lead">Built automatically from this site's public Git history. Newest first.</p>
+    {changes[0] && <p class="updated-big"><span class="updated" data-updated={changes[0].date}>Last update: {day(changes[0].date)}</span></p>}
+  </section>
+  <section class="band band-gray">
+    <div class="changelog">
+      {[...groups].map(([date, list]) => (
+        <section class="cl-day reveal">
+          <h2 class="cl-date">{date}</h2>
+          <ul>
+            {list.map((c) => (
+              <li><a href={c.url} rel="noopener noreferrer"><code>{c.short}</code></a> {c.message}</li>
+            ))}
+          </ul>
+        </section>
+      ))}
+      {changes.length === 0 && <p class="center">The changelog couldn't be loaded during this build.</p>}
+    </div>
+    <p class="center"><a class="more" href="https://github.com/camtoan-do/camtoan.me/commits/main" rel="noopener noreferrer">Full history on GitHub</a></p>
+  </section>
+</Base>

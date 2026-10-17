@@ -11,4 +11,15 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+// Public technical docs at /docs/<id>/.
+const docs = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/docs" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number(),
+    updated: z.coerce.date(),
+  }),
+});
+
+export const collections = { blog, docs };

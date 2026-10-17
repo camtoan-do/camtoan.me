@@ -33,3 +33,7 @@ jobs:
         env:
           SITE_URL: ${{ inputs.url || 'https://camtoan.me' }}
         run: node scripts/check-live.mjs "$SITE_URL"
+      - name: API contract tests (Postman collection via Newman)
+        env:
+          SITE_URL: ${{ inputs.url || 'https://camtoan.me' }}
+        run: npx -y newman@6 run public/postman/kamllistos-api.postman_collection.json --env-var "baseUrl=$SITE_URL" --reporters cli

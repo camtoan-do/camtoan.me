@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { site } from "../../site";
+
+export async function getStaticPaths() {
+  const docs = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+  return docs.map((doc, i) => ({ params: { id: doc.id }, props: { doc, next: docs[(i + 1) % docs.length] } }));
+}
+
+const { doc, next } = Astro.props;
+const { Content } = await render(doc);
+---
+
+<Base title={`${doc.data.title} — Docs — ${site.name}`}>
+  <article class="prose doc">
+    <a class="back" href="/docs/">← All docs</a>
+    <p class="eyebrow">Docs</p>
+    <h1>{doc.data.title}</h1>
+    <p class="lead">{doc.data.description}</p>
+    <Content />
+    <hr />
+    <p class="small">Last reviewed {doc.data.updated.toLocaleDateString("en-US", { dateStyle: "long", timeZone: "UTC" })} · <a href="/changelog/">Changelog</a> · Next: <a href={`/docs/${next.id}/`}>{next.data.title} →</a></p>
+  </article>
+</Base>

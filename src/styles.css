@@ -432,3 +432,42 @@ a.product-card:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 v
 .product-badge.live { background: var(--green); color: var(--on-color); }
 .product-badge.soon { background: var(--surface); color: var(--ink); }
 .product-soon-note { margin-top: auto; font-weight: 800; font-size: 13px; color: var(--muted); }
+
+/* Footer links + "days since last update" badge */
+.footer-links { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.1rem; margin-top: 0.6rem; }
+footer .updated { background: var(--green); color: #000; padding: 1px 8px; border: 2px solid var(--paper); text-decoration: none; }
+.updated-big .updated { display: inline-block; margin-top: 1rem; padding: 4px 12px; background: var(--green); color: #000; border: var(--border); box-shadow: var(--shadow-sm); font-weight: 800; }
+
+/* Changelog */
+.changelog { max-width: 820px; margin: 0 auto; display: grid; gap: 22px; }
+.cl-day { background: var(--surface); color: var(--ink); border: var(--border); box-shadow: var(--shadow); padding: 18px 22px; }
+.cl-date { font-size: 18px; margin: 0 0 10px; }
+.cl-day ul { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 8px; }
+.cl-day li { line-height: 1.45; }
+.cl-day code { background: var(--yellow); color: #000; border: 2px solid var(--ink); padding: 0 5px; font-size: 13px; margin-right: 6px; }
+
+/* Stack */
+.stack-grid { max-width: 1080px; margin: 2rem auto 0; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.stack-card { background: var(--surface); color: var(--ink); border: var(--border); box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column; gap: 6px; }
+.stack-card h3 { margin: 6px 0 0; font-size: 20px; }
+.stack-card p { margin: 0; color: var(--muted); }
+.stack-links { display: flex; gap: 14px; margin-top: auto !important; padding-top: 8px; font-weight: 800; }
+.status { align-self: flex-start; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border: 2px solid var(--ink); color: #000; }
+.status-in-use { background: var(--green); }
+.status-planned { background: var(--yellow); }
+.status-lab { background: var(--pink); }
+
+/* Docs */
+.doc table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 16px; border: var(--border); box-shadow: var(--shadow-sm); display: block; overflow-x: auto; }
+.doc th, .doc td { border: 2px solid var(--ink); padding: 10px 12px; text-align: left; vertical-align: top; }
+.doc th { background: var(--yellow); color: #000; }
+.doc pre { background: var(--ink); color: var(--paper); padding: 14px 16px; overflow-x: auto; border: var(--border); }
+.doc pre code { background: none; color: inherit; padding: 0; word-break: normal; }
+
+/* Phones: let the nav wrap onto two rows instead of pushing the page sideways. */
+@media (max-width: 600px) {
+  .nav-inner { height: auto; min-height: 60px; flex-wrap: wrap; row-gap: 6px; padding-top: 8px; padding-bottom: 8px; }
+  .nav-links { flex-wrap: wrap; row-gap: 4px; }
+}
+.doc .back { display: block; width: fit-content; margin-bottom: 1rem; }
+.doc td code, .doc th code { word-break: normal; white-space: nowrap; }

@@ -1,10 +1,13 @@
-// Cloudflare Workers config: serves the static site built into dist/.
-// Response headers come from public/_headers.
+// Cloudflare Workers config: static site from dist/, plus a small read-only REST API on /api/*.
+// Page response headers come from public/_headers; API headers are set in worker/index.ts.
 {
   "name": "camtoan-me",
   "compatibility_date": "2026-10-13",
+  "main": "./worker/index.ts",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api", "/api/*"]
   }
 }

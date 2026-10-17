@@ -1,6 +1,9 @@
 ---
 import "../styles.css";
 import { site } from "../site";
+import { getChanges } from "../changelog";
+
+const latest = (await getChanges())[0];
 
 interface Props {
   title?: string;
@@ -14,8 +17,9 @@ const { title = site.name } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={site.tagline} />
-    <link rel="icon" href="/kamllistos.png" type="image/png" />
-    <link rel="apple-touch-icon" href="/kamllistos.png" />
+    <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
+    <link rel="icon" href="/icon.png" type="image/png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <title>{title}</title>
   </head>
@@ -59,7 +63,13 @@ const { title = site.name } = Astro.props;
         </svg>
         <span>{site.brand.name} <span class="footer-sep">·</span> © {new Date().getFullYear()} {site.name}. All rights reserved.</span>
       </span>
-      <span class="sep">|</span> <a href="/security">Security &amp; disclosure</a>
+      <span class="footer-links">
+        {latest && <a class="updated" href="/changelog/" data-updated={latest.date}>Last update: {new Date(latest.date).toLocaleDateString("en-US", { dateStyle: "medium", timeZone: "America/Edmonton" })}</a>}
+        <a href="/stack/">Stack</a>
+        <a href="/docs/">Docs</a>
+        <a href="/changelog/">Changelog</a>
+        <a href="/security">Security &amp; disclosure</a>
+      </span>
     </footer>
     <script is:inline src="/site.js" defer></script>
   </body>
